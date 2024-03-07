@@ -27,7 +27,7 @@ func main() {
 	_, err := c.AddFunc(config.SslCheckerCron, func() {
 		log.Info("Running SSL Expire Checker CRON", "time", time.Now())
 		for _, host := range config.HostAddresses {
-            go service.CheckSslCertificateExpiration(host)
+            service.CheckSslCertificateExpiration(host)
         }
 	})
 
