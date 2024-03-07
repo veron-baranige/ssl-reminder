@@ -16,6 +16,7 @@ var (
 	HostAddresses         []string
 	ReceiverMailAddresses []string
 	DaysToRemindFrom      int
+	SslCheckerCron        string
 )
 
 func LoadEnv() error {
@@ -31,6 +32,7 @@ func LoadEnv() error {
 	ReceiverMailAddresses = strings.Split(os.Getenv("MAIL_RECEIVERS"), ",")
 	HostAddresses = strings.Split(os.Getenv("HOST_ADDRESSES"), ",")
 	DaysToRemindFrom, _ = strconv.Atoi(os.Getenv("REMINDER_DAYS_BEFORE_EXPIRATION"))
+	SslCheckerCron = os.Getenv("SSL_EXPIRE_CHECKER_CRON")
 
 	return nil
 }
