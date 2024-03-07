@@ -19,19 +19,12 @@ func main() {
 	displayLogo()
 
 	log.Info("Loading environment variables")
-	err := config.LoadEnv()
-	if err != nil {
-		if err.Error() == "open .env: no such file or directory" {
-			log.Warn("Failed to load environment variables using .env file")
-		} else {
-			log.Error("Failed to load environment variables", "err", err)
-		}
-	}
-
+	config.LoadEnv()
+	
+	log.Info("Setting up CRON jobs")
 	c := cron.New()
 
-	log.Info("Setting up CRON jobs")
-	_, err = c.AddFunc(config.SslCheckerCron, func() {
+	_, err := c.AddFunc(config.SslCheckerCron, func() {
 		log.Info("Running SSL Expire Checker CRON", "time", time.Now())
 		for _, host := range config.HostAddresses {
             go service.CheckSslCertificateExpiration(host)
