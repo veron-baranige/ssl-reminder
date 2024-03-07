@@ -17,7 +17,8 @@ func displayLogo() {
 
 func main() {
 	displayLogo()
-
+	log.SetLevel(log.DebugLevel)
+	
 	log.Info("Loading environment variables")
 	config.LoadEnv()
 	

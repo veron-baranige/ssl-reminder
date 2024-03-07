@@ -3,20 +3,11 @@ package service
 import (
 	"crypto/tls"
 	"fmt"
-	"os"
 	"time"
 
 	"github.com/charmbracelet/log"
 	"github.com/veron-baranige/ssl-reminder/config"
 	"github.com/veron-baranige/ssl-reminder/mail"
-)
-
-var (
-	debugLogger = log.NewWithOptions(os.Stderr, log.Options{
-		Level:           log.DebugLevel,
-		TimeFormat:      time.DateTime,
-		ReportTimestamp: true,
-	})
 )
 
 func CheckSslCertificateExpiration(host string) {
@@ -30,11 +21,11 @@ func CheckSslCertificateExpiration(host string) {
 	}
 
 	cert := conn.ConnectionState().PeerCertificates[0]
-	debugLogger.Debug("Certificate expiration date:", "cert.NotAfter", cert.NotAfter)
+	log.Debug("Certificate expiration date:", "cert.NotAfter", cert.NotAfter)
 
 	timeUntilExp := time.Until(cert.NotAfter)
 	daysUntilExp := int(timeUntilExp.Hours() / 24)
-	debugLogger.Debug("Days until ceritifcate expiration: ", "daysUntilExp", daysUntilExp)
+	log.Debug("Days until ceritifcate expiration: ", "daysUntilExp", daysUntilExp)
 
 	if daysUntilExp <= 0 {
 		log.Warn("Certificate has expired", "host", host)
