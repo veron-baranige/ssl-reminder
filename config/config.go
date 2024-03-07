@@ -2,31 +2,35 @@ package config
 
 import (
 	"os"
-	"time"
+	"strconv"
+	"strings"
 
-	"go.uber.org/zap"
-	"go.uber.org/zap/zapcore"
-)
-
-const (
-	SmtpHost = "smtp.gmail.com"
-	SmtpPort = 587
-	LogDirectory = "./logs"
-	InfoLogPath = "./logs/info.log"
+	"github.com/joho/godotenv"
 )
 
 var (
-	SmtpUser      = os.Getenv("SMTP_USER")
-	SmtpPassword  = os.Getenv("SMTP_PASSWORD")
-	MailReceivers = os.Getenv("MAIL_RECEIVERS")
-	config        = zap.NewDevelopmentConfig()
+	SmtpHost              string
+	SmtpUser              string
+	SmtpPassword          string
+	SmtpPort              int
+	HostAddresses         []string
+	ReceiverMailAddresses []string
+	DaysToRemindFrom      int
 )
 
-func GetLoggerConfig() zap.Config {
-	config.EncoderConfig.TimeKey = "timestamp"
-    config.EncoderConfig.EncodeTime = zapcore.TimeEncoderOfLayout(time.DateTime)
-	config.DisableCaller = true
-    config.EncoderConfig.EncodeLevel = zapcore.CapitalLevelEncoder
-	config.OutputPaths = []string{"stderr", InfoLogPath}
-	return config
+func LoadEnv() error {
+	if err := godotenv.Load(); err != nil {
+		return err
+	}
+
+	SmtpPort, _ = strconv.Atoi(os.Getenv("SMTP_PORT"))
+	SmtpPassword = os.Getenv("SMTP_PASSWORD")
+	SmtpUser = os.Getenv("SMTP_USER")
+	SmtpHost = os.Getenv("SMTP_HOST")
+
+	ReceiverMailAddresses = strings.Split(os.Getenv("MAIL_RECEIVERS"), ",")
+	HostAddresses = strings.Split(os.Getenv("HOST_ADDRESSES"), ",")
+	DaysToRemindFrom, _ = strconv.Atoi(os.Getenv("REMINDER_DAYS_BEFORE_EXPIRATION"))
+
+	return nil
 }
