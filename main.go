@@ -1,20 +1,44 @@
 package main
 
 import (
-	"os"
+	"fmt"
+	"time"
 
+	"github.com/charmbracelet/log"
+	"github.com/robfig/cron/v3"
 	"github.com/veron-baranige/ssl-reminder/config"
-	"go.uber.org/zap"
+	"github.com/veron-baranige/ssl-reminder/service"
 )
 
-var logger *zap.Logger
-
-func initLogger() {
-	os.MkdirAll(config.LogDirectory, os.ModePerm)
-	logger, _ = config.GetLoggerConfig().Build()
-	defer logger.Sync()
+func displayLogo() {
+	logo := "SSL REMINDER v1.0\nMade by Veron Baranige\n"
+	fmt.Println(logo)
 }
 
 func main() {
-	initLogger()
+	displayLogo()
+
+	log.Info("Loading environment variables")
+	err := config.LoadEnv()
+	if err != nil {
+		log.Error("Failed to load environment variables", "err", err)
+	}
+
+	c := cron.New()
+
+	log.Info("Setting up CRON jobs")
+	_, err = c.AddFunc(config.SslCheckerCron, func() {
+		log.Info("Running SSL Expire Checker CRON", "time", time.Now())
+		for _, host := range config.HostAddresses {
+            go service.CheckSslCertificateExpiration(host)
+        }
+	})
+
+	if err != nil {
+		log.Error("Failed to add SSL Expire Checker CRON", "err", err)
+		return
+	}
+
+	c.Start()
+	select {}
 }
