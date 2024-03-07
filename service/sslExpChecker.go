@@ -36,8 +36,8 @@ func CheckSslCertificateExpiration(host string) {
 	daysUntilExp := int(timeUntilExp.Hours() / 24)
 	debugLogger.Debug("Days until ceritifcate expiration: ", "daysUntilExp", daysUntilExp)
 
-	if daysUntilExp < 0 {
-		log.Warn("Certificate is expired", "host", host)
+	if daysUntilExp <= 0 {
+		log.Warn("Certificate has expired", "host", host)
 		log.Info("Sending reminder mail to renew the certificate")
 
 		if err := mail.SendMail(
