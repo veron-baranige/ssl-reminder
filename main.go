@@ -21,7 +21,11 @@ func main() {
 	log.Info("Loading environment variables")
 	err := config.LoadEnv()
 	if err != nil {
-		log.Error("Failed to load environment variables", "err", err)
+		if err.Error() == "open .env: no such file or directory" {
+			log.Warn("Failed to load environment variables using .env file")
+		} else {
+			log.Error("Failed to load environment variables", "err", err)
+		}
 	}
 
 	c := cron.New()
