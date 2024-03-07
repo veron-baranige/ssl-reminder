@@ -13,7 +13,6 @@ const (
 	SmtpPort = 587
 	LogDirectory = "./logs"
 	InfoLogPath = "./logs/info.log"
-	ErrorLogPath = "./logs/error.log"
 )
 
 var (
