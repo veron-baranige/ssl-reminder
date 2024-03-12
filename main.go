@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"runtime"
 	"time"
 
 	"github.com/charmbracelet/log"
@@ -29,7 +30,8 @@ func main() {
 		log.Info("Running SSL Expire Checker CRON", "time", time.Now())
 		for _, host := range config.HostAddresses {
             service.CheckSslCertificateExpiration(host)
-        }
+		}
+		runtime.GC()
 	})
 
 	if err != nil {
