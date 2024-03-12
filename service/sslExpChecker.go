@@ -11,8 +11,8 @@ import (
 	"github.com/veron-baranige/ssl-reminder/mail"
 )
 
-var (
-	dialTimeout = 20 * time.Second
+const (
+	timeout = 20 * time.Second
 )
 
 func CheckSslCertificateExpiration(host string) {
@@ -20,7 +20,7 @@ func CheckSslCertificateExpiration(host string) {
 
 	parsedHostAddr := fmt.Sprintf("%s:%d", host, 443)
 	conn, err := tls.DialWithDialer(
-		&net.Dialer{Timeout: dialTimeout}, 
+		&net.Dialer{Timeout: timeout}, 
 		"tcp", 
 		parsedHostAddr,
 		&tls.Config{InsecureSkipVerify: true},
