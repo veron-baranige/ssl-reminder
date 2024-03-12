@@ -29,6 +29,7 @@ func CheckSslCertificateExpiration(host string) {
 		log.Error("Failed to retrieve TLS connection", "host", host, "err", err)
 		return
 	}
+	defer conn.Close()
 
 	cert := conn.ConnectionState().PeerCertificates[0]
 	log.Debug("Certificate expiration date:", "cert.NotAfter", cert.NotAfter)
