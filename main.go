@@ -33,6 +33,7 @@ func main() {
 		for _, host := range config.HostAddresses {
             service.CheckSslCertificateExpiration(host)
 		}
+		log.Debug("Running garbage collector")
 		runtime.GC()
 	})
 
