@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"time"
 
 	"github.com/charmbracelet/log"
@@ -10,14 +9,17 @@ import (
 	"github.com/veron-baranige/ssl-reminder/service"
 )
 
-func displayLogo() {
-	logo := "SSL REMINDER v1.0\nMade by Veron Baranige\n"
-	fmt.Println(logo)
+func displayStartup() {
+	log.SetReportTimestamp(false)
+	startMsg := "SSL REMINDER v1.0\nMade by Veron Baranige\n"
+	log.Print(startMsg)
 }
 
 func main() {
-	displayLogo()
+	displayStartup()
+
 	log.SetLevel(log.DebugLevel)
+	log.SetReportTimestamp(true)
 	
 	log.Info("Loading environment variables")
 	config.LoadEnv()
@@ -29,7 +31,7 @@ func main() {
 		log.Info("Running SSL Expire Checker CRON", "time", time.Now())
 		for _, host := range config.HostAddresses {
             service.CheckSslCertificateExpiration(host)
-        }
+		}
 	})
 
 	if err != nil {

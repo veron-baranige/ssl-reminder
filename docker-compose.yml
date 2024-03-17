@@ -9,8 +9,8 @@ services:
       - SMTP_HOST=smtp.gmail.com
       - SMTP_PORT=587
       - SMTP_USER=veron.b@hsenidoutsourcing.com
-      - SMTP_PASSWORD=gxfmuwgxhixanqbs
-      - HOST_ADDRESSES=logsilu.knsp.jp,logsiru-dev.practechs.com
-      - MAIL_RECEIVERS=veron.b@hsenidoutsourcing.com,harshana.k@hsenidoutsourcing.com
-      - SSL_EXPIRE_CHECKER_CRON=0 */12 * * *
+      - SMTP_PASSWORD=************
+      - HOST_ADDRESSES=logsiru-dev.practechs.com,logsilu.knsp.jp,pht-staging.practechs.com
+      - MAIL_RECEIVERS=veron.b@hsenidoutsourcing.com
+      - SSL_EXPIRE_CHECKER_CRON=* * * * *
       - REMINDER_DAYS_BEFORE_EXPIRATION=7
