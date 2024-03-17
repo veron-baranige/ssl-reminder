@@ -1,4 +1,4 @@
-name: publish
+name: Pubish package
 
 on:
   release:
@@ -12,6 +12,8 @@ jobs:
   push_to_registry:
     name: Publish Docker Image
     runs-on: ubuntu-latest
+    permissions:
+      packages: write
 
     steps:
       - 
