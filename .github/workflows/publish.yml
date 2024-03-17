@@ -6,7 +6,7 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_TAG: ${{ github.actor }}/${{ github.repository }}:${{ github.event.release.tag_name }} 
+  IMAGE_TAG: ${{ github.repository }}:${{ github.event.release.tag_name }} 
 
 jobs:
   push_to_registry:
